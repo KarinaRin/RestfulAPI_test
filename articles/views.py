@@ -1,12 +1,10 @@
-from rest_framework import generics, status
-from rest_framework.response import Response
 from .serializers import *
 from .models import Articles, CustomUser
 from .permissions import IsOwnerOrReadOnly
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework import viewsets
 
 
-class RegistrUserView(generics.CreateAPIView):
+'''class RegistrUserView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = ArticlesRegistrSerializers
     permission_classes = (IsOwnerOrReadOnly, )
@@ -43,4 +41,10 @@ class ArticlesPrivateListView(generics.ListAPIView):
 class ArticlesDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ArticlesDetailSerializers
     queryset = Articles.objects.all()
-    permission_classes = (IsOwnerOrReadOnly, )
+    permission_classes = (IsOwnerOrReadOnly, )'''
+
+
+class ArticleViewSet(viewsets.ModelViewSet):
+    queryset = Articles.objects.all()
+    serializer_class = ArticlesListSerializers
+    permission_classes = (IsOwnerOrReadOnly,)

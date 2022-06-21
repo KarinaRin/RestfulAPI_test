@@ -21,7 +21,6 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    id = models.AutoField(primary_key=True, unique=True)
     email = models.EmailField(max_length=100, unique=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -41,3 +40,6 @@ class Articles(models.Model):
     author = models.ForeignKey(CustomUser,  verbose_name='Автор статьи', on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now=True, verbose_name='Дата публикации статьи')
     public = models.BooleanField(default=False, verbose_name='Публичная статья')
+
+    def __str__(self):
+        return self.title

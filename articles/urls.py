@@ -1,6 +1,4 @@
-from django.urls import path
-from .views import *
-
+'''from django.urls import path
 
 app_name = 'articles'
 urlpatterns = [
@@ -10,3 +8,11 @@ urlpatterns = [
     path('articles/detail/<int:pk>/', ArticlesDetailView.as_view()),
     path('registr/', RegistrUserView.as_view()),
 ]
+'''
+
+from rest_framework import routers
+from .views import ArticleViewSet
+
+router = routers.SimpleRouter()
+router.register(r'article', ArticleViewSet)
+urlpatterns = router.urls
