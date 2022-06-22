@@ -29,9 +29,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'djoser',
     'articles',
     'django_password_validators',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -79,13 +79,13 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'articles.validators.MinimumLengthValidator',
+        'NAME': 'users.validators.MinimumLengthValidator',
     },
     {
-        'NAME': 'articles.validators.NumberValidator',
+        'NAME': 'users.validators.NumberValidator',
     },
     {
-        'NAME': 'articles.validators.LetterValidator',
+        'NAME': 'users.validators.LetterValidator',
     },
 ]
 
@@ -110,7 +110,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'articles.CustomUser'
+AUTH_USER_MODEL = 'users.CustomUser'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -119,7 +119,3 @@ REST_FRAMEWORK = {
     ],
 }
 
-DJOSER = {
-    'ACTIVATION_URL': '#/activate/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': False,
-}

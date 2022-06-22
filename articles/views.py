@@ -1,50 +1,24 @@
 from .serializers import *
-from .models import Articles, CustomUser
-from .permissions import IsOwnerOrReadOnly
+from .models import Article
 from rest_framework import viewsets
-
-
-'''class RegistrUserView(generics.CreateAPIView):
-    queryset = CustomUser.objects.all()
-    serializer_class = ArticlesRegistrSerializers
-    permission_classes = (IsOwnerOrReadOnly, )
-
-    def post(self, request, *args, **kwargs):
-        serializer = ArticlesRegistrSerializers(data=request.data)
-        data = {}
-        if serializer.is_valid():
-            serializer.save()
-            data['response'] = True
-            return Response(data, status=status.HTTP_200_OK)
-        else:
-            data = serializer.errors
-            return Response(data)
-
-
-class ArticlesCreateView(generics.CreateAPIView):
-    serializer_class = ArticlesDetailSerializers
-    queryset = Articles.objects.all()
-    permission_classes = (IsAuthenticatedOrReadOnly, )
-
-
-class ArticlesListView(generics.ListAPIView):
-    serializer_class = ArticlesListSerializers
-    queryset = Articles.objects.filter(public=True)
-
-
-class ArticlesPrivateListView(generics.ListAPIView):
-    serializer_class = ArticlesPrivateListSerializers
-    queryset = Articles.objects.filter(public=False)
-    permission_classes = (IsAuthenticatedOrReadOnly, )
-
-
-class ArticlesDetailView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = ArticlesDetailSerializers
-    queryset = Articles.objects.all()
-    permission_classes = (IsOwnerOrReadOnly, )'''
+from users.permissions import *
 
 
 class ArticleViewSet(viewsets.ModelViewSet):
-    queryset = Articles.objects.all()
-    serializer_class = ArticlesListSerializers
-    permission_classes = (IsOwnerOrReadOnly,)
+    serializer_class = ArticleSerializers
+
+    def get_permissions(self):
+        if self.action == 'create':
+            self.permission_classes = [IsAuthor, ]
+        elif self.action in ('update', 'destroy', 'retrieve'):
+            self.permission_classes = [IsAuthorOrReadOnly, ]
+        return super(ArticleViewSet, self).get_permissions()
+
+    def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return Article.objects.filter(public=True)
+        return Article.objects.all()
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        serializer.save(author=user)

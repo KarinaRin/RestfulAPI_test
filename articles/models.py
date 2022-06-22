@@ -1,40 +1,8 @@
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
-from django.utils.translation import gettext_lazy as _
+from users.models import CustomUser
 
 
-class CustomUserManager(BaseUserManager):
-    def _create_user(self, email, password, **extra_fields):
-        if not email:
-            raise ValueError(_('The Email must be set'))
-        email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
-        user.set_password(password)
-        user.save()
-        return user
-
-    def create_user(self, email, password):
-        return self._create_user(email, password)
-
-    def create_superuser(self, email, password):
-        return self._create_user(email, password, is_staff=True, is_superuser=True)
-
-
-class CustomUser(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(max_length=100, unique=True)
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
-
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
-
-    objects = CustomUserManager()
-
-    def __str__(self):
-        return self.email
-
-
-class Articles(models.Model):
+class Article(models.Model):
     title = models.CharField(verbose_name='Заголовок статьи', max_length=150)
     text = models.TextField(verbose_name='Текст статьи')
     author = models.ForeignKey(CustomUser,  verbose_name='Автор статьи', on_delete=models.CASCADE)
