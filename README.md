@@ -6,7 +6,7 @@ superuser: admin@admin.ru password: admin
 
 Автор1: author1@a.ru password: author11
 
-Автор2: author2@a.ru password: author2
+Автор2: author2@a.ru password: author22
 
 Подписчик: sub@s.ru password: sub12345
 
