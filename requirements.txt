@@ -8,12 +8,14 @@ coreschema==0.0.4
 cryptography==37.0.2
 defusedxml==0.7.1
 Django==4.0.5
+django-email-users==1.1.0
 django-password-validators==1.7.0
 django-rest-registration==0.7.2
 django-templated-mail==1.1.1
 djangorestframework==3.13.1
 djangorestframework-simplejwt==4.8.0
 djoser==2.1.0
+generics==3.5.0
 idna==3.3
 importlib-metadata==4.11.4
 itypes==1.2.0
